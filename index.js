@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5556
 
 //sadiForAssignment12
 //EhYYhJcReCWRm5lJ
@@ -28,9 +28,15 @@ async function run() {
         await client.connect();
         const database = client.db("SummerCampDB");
         const classes = database.collection("classes");
+        const instructors = database.collection("instructors");
 
         app.get('/classes', async(req, res) => {
             const cursor = classes.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+        app.get('/instructors', async(req, res) => {
+            const cursor = instructors.find();
             const result = await cursor.toArray();
             res.send(result);
         })
